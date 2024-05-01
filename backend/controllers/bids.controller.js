@@ -1,4 +1,4 @@
-import { getBids } from "../db/db.js";
+import { getBids, createBid, getBid } from "../db/db.js";
 
 /**
  * Get all bids by utilizing the getBids function from db.js
@@ -45,8 +45,8 @@ export const getBidById = async (req, res) => {
  */
 export const createNewBid = async (req, res) => {
   try {
-    const { fullName, amount } = req.body;
-    await createBid(fullName, amount);
+    const { fullName, amount, productId } = req.body;
+    await createBid(fullName, amount, productId);
     res.status(201).json({ message: "Bid created successfully" });
   } catch (err) {
     res.status(500).json({ message: err.message });

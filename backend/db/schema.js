@@ -12,5 +12,5 @@ export const bids = pgTable("bids", {
   fullName: varchar("full_name", { length: 256 }).notNull(),
   bidDate: timestamp("bid_date").notNull().defaultNow(),
   amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
-  productId: integer("product_id").notNull(),
+  productId: varchar("product_id").notNull(),
 });

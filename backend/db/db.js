@@ -45,6 +45,6 @@ export const getBid = async (id) => {
  * @param {number} amount
  * @returns {Promise<QueryResult>}
  */
-export const createBid = async (fullName, amount) => {
-  return db.insert(bids).values({ fullName, amount }).execute();
+export const createBid = async (fullName, amount, productId) => {
+  return db.insert(bids).values({ fullName, amount, productId }).execute();
 };
