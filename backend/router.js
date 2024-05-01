@@ -4,7 +4,10 @@ import {
   getBidById,
   createNewBid,
 } from "./controllers/bids.controller.js";
-import { getAllProducts } from "./controllers/products.controller.js";
+import {
+  getAllProducts,
+  getProductById,
+} from "./controllers/products.controller.js";
 
 const router = express.Router();
 
@@ -28,5 +31,6 @@ router.post("/bids", createNewBid);
  * Products routes
  */
 router.get("/products", getAllProducts);
+router.get("/products/:productId", getProductById);
 
 export default router;
