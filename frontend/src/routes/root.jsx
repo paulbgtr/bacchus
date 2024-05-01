@@ -1,7 +1,11 @@
+import { Header } from "../components/Header";
+import { AuctionList } from "../components/AuctionList";
+
 const Root = () => {
   return (
-    <div>
-      <h1>Root</h1>
+    <div className="max-w-3xl mx-auto">
+      <Header />
+      <AuctionList />
     </div>
   );
 };
