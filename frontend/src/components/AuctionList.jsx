@@ -12,36 +12,35 @@ export const AuctionList = () => {
         A list of all the auctions available for bidding
       </h2>
 
-      <AuctionItems />
+      <div className="min-h-[80vh]">
+        <AuctionItems />
+      </div>
     </>
   );
 };
 
 /**
- * A component to display a list of auction items.
+ * A component to display a list of auction items with category filter.
  * It fetches them from the backend API. While fetching, it shows a loading spinner provided by daisyui.
+ * Users can filter items based on categories.
  *
  *  @returns A list of auction items react component
  */
 const AuctionItems = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
     const fetchProducts = async () => {
       const productsApi = "http://localhost:3001/products";
-
       try {
         const response = await fetch(productsApi);
-
         if (!response.ok) {
           throw new Error("Something went wrong!");
         }
-
         const productsData = await response.json();
-
         setProducts(productsData);
-
         setLoading(false);
       } catch (err) {
         console.error(err);
@@ -52,16 +51,45 @@ const AuctionItems = () => {
     fetchProducts();
   }, []);
 
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+
   if (loading) {
     return <span className="loading loading-ball loading-md"></span>;
   }
 
+  const filteredProducts =
+    selectedCategory === "All"
+      ? products
+      : products.filter(
+          (product) => product.productCategory === selectedCategory
+        );
+
   return (
-    <div className="grid gap-3 grid-cols-3">
-      {products.map((product) => (
-        <AuctionItem key={product.productId} {...product} />
-      ))}
-    </div>
+    <>
+      <select
+        className="select select-bordered w-full max-w-xs"
+        value={selectedCategory}
+        onChange={handleCategoryChange}
+      >
+        <option value="All">All Categories</option>
+        {/* Dynamically generate option tags based on categories available in products */}
+        {[...new Set(products.map((product) => product.productCategory))].map(
+          (category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          )
+        )}
+      </select>
+
+      <div className="grid gap-3 grid-cols-3 mt-4">
+        {filteredProducts.map((product) => (
+          <AuctionItem key={product.productId} {...product} />
+        ))}
+      </div>
+    </>
   );
 };
 
